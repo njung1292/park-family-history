@@ -1,260 +1,487 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Park Timeline</title>
+  <title>Park Won-ho | Family History</title>
   <style>
+    :root {
+      --primary: #2c3e50;
+      --accent-family: #6b8e23;
+      /* Sage green for family */
+      --accent-history: #95a5a6;
+      /* Gray for global history */
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+    }
+
     body {
-      font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
-      line-height: 1.6;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
       color: #333;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f4f4f4;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 40px 20px;
     }
+
     .container {
-      background: #fff;
-      padding: 40px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 0 auto;
     }
+
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    h1 {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      color: #7f8c8d;
+      font-size: 1.1rem;
+    }
+
     h2 {
-      color: #2c3e50;
-      border-bottom: 2px solid #2c3e50;
-      padding-bottom: 10px;
-      margin-top: 40px;
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin-top: 50px;
+      margin-bottom: 25px;
+      border-left: 4px solid var(--primary);
+      padding-left: 15px;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
+
+    /* Timeline Styling */
+    .timeline {
+      position: relative;
+      padding-left: 30px;
     }
-    td {
-      padding: 15px;
-      border-bottom: 1px solid #eee;
-      vertical-align: top;
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #e0e0e0;
     }
+
+    .event {
+      position: relative;
+      margin-bottom: 35px;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .event::before {
+      content: '';
+      position: absolute;
+      left: -37px;
+      top: 25px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid var(--primary);
+      z-index: 1;
+    }
+
+    .event.family-event::before {
+      left: -42px;
+    }
+
+    .event.family-event {
+      border-left: 5px solid var(--accent-family);
+    }
+
+    .date-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
     .date {
-      font-weight: bold;
-      color: #2980b9;
-      width: 180px;
-      white-space: nowrap;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.05rem;
     }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-family {
+      background: #eef5e9;
+      color: var(--accent-family);
+    }
+
+    .badge-history {
+      background: #ebf0f5;
+      color: var(--accent-history);
+    }
+
+    .content-ko {
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
     .translation {
       display: block;
-      font-size: 0.9em;
-      color: #666;
-      margin-top: 5px;
+      font-size: 0.9rem;
+      color: #6c757d;
       font-style: italic;
+
+      a {
+        color: #4982b4;
+      }
     }
-    .image-box {
-      display: flex;
-      flex-direction: row;
+
+    a {
+      color: #2b78bc;
+    }
+
+    /* Image Grid Styling */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .image-card {
+      background: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-card img {
       width: 100%;
-      text-align: center;
-      margin: 30px 0;
-    }
-    .image-box img {
-      max-width: 100%;
-      flex: 1;
       height: auto;
-      object-fit: cover;
-      width: 0;
-      border: 1px solid #ddd;
-      padding: 5px;
-      background: #fff;
+      display: block;
+      border-radius: 2px;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: underline;
+      text-decoration-color: #bdc3c7;
+    }
+
+    a:hover {
+      text-decoration-color: var(--primary);
+    }
+
+    @media (max-width: 600px) {
+      .image-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<div class="container">
-  <h2>일제강점기 및 해방 정국</h2>
-  <table>
-    <tr>
-      <td class="date">1910년 8월 22일</td>
-      <td>
-        한일병합조약 체결로 대한제국의 국권이 상실되며 일제강점기가 시작됨.
-        <span class="translation">The signing of the Japan-Korea Annexation Treaty marks the beginning of the Japanese colonial period.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1924년</td>
-      <td>
-        박원호와 박봉덕, 한반도 북부 지역에서 출생.
-        <span class="translation">Park Won-ho and Park Bong-deok are born in the northern part of the Korean Peninsula.</span>
-      </td>
-    </tr>
-  </table>
+  <div class="container">
+    <header>
+      <h1>A Family History</h1>
+    </header>
 
-  <div class="image-box">
-    <img src="photo1.jpg" alt="Park Won-ho Portrait 1">
-    <img src="photo2.jpg" alt="Park Won-ho Portrait 2">
-  </div>
-  <div class="image-box">
-    <img src="photo3.jpg" alt="Park Bong-deok and peer">
-    <img src="photo4.jpg" alt="Woman at a jar">
-  </div>
+    <h2>일제강점기 및 해방 정국</h2>
+    <div class="timeline">
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1910. 08. 22</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko"><a
+            href="https://ko.wikipedia.org/wiki/%ED%95%9C%EC%9D%BC%EB%B3%91%ED%95%A9%EC%A1%B0%EC%95%BD"
+            target="_blank">한일병합조약</a> 체결로 대한제국의 국권이 상실되며 일제강점기가 시작됨.</div>
+        <span class="translation">The signing of the <a
+            href="https://en.wikipedia.org/wiki/Japan%E2%80%93Korea_Treaty_of_1910" target="_blank">Japan–Korea
+            Annexation Treaty</a> marks the beginning of the Japanese colonial period.</span>
+      </div>
 
-  <h2>한국전쟁</h2>
-  <table>
-    <tr>
-      <td class="date">1945년</td>
-      <td>
-        박원호가 일본 해군 장병으로 징집되어 남태평양 전선에 배치됨.
-        <span class="translation">Park Won-ho is conscripted as a Japanese naval serviceman and deployed to the South Pacific theater.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1945년 8월 8일</td>
-      <td>
-        소련의 대일 선전포고 및 한반도 북부 진주.
-        <span class="translation">The Soviet Union declares war on Japan and advances into the northern part of the Korean Peninsula.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1945년 8월 15일</td>
-      <td>
-        일본의 무조건 항복으로 제2차 세계대전 종결 및 한반도 광복.
-        <span class="translation">World War II concludes with Japan's unconditional surrender, leading to the liberation of the Korean Peninsula.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1945년 말</td>
-      <td>
-        포츠담 회담 결과에 따라 미·소 양군이 38선을 경계로 분할 점령함. 북한 지역에서 김일성 중심의 공산 정권 기반이 강화되었으며, 조만식 등 민족주의 진영과의 정치적 갈등이 심화됨.
-        <span class="translation">In accordance with the Potsdam Conference, U.S. and Soviet forces partition and occupy the Korean Peninsula along the 38th parallel. The foundations of a communist regime centered on Kim Il-sung are solidified in the north, as political tensions with nationalist factions, including those led by Cho Man-sik, intensify.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1946년 ~ 1947년경</td>
-      <td>
-        박원호가 공산 정권에 대한 항의 활동으로 체포되었다가 이후 석방됨.
-        <span class="translation">Park Won-ho is arrested for participating in protests against the communist regime and subsequently released.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1947년 / 1948년</td>
-      <td>
-        박원호가 대한민국 육군사관학교 제7기로 임관함.
-        <span class="translation">Park Won-ho is commissioned as an officer in the 7th class of the Korea Military Academy.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1950년 6월 25일</td>
-      <td>
-        북한군의 남침으로 한국전쟁 발발.
-        <span class="translation">The Korean War breaks out following the North Korean military's invasion of the South.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1950년 9월 15일 ~ 19일</td>
-      <td>
-        유엔군의 인천상륙작전 성공으로 북한군의 보급로가 차단되고 서울 수복의 기틀이 마련됨.
-        <span class="translation">The success of the UN forces' Incheon Landing Operation severs North Korean supply lines and establishes the groundwork for the recapture of Seoul.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1950년 11월 25일 ~ 12월 2일</td>
-      <td>
-        중공군의 개입과 청천강 전투로 인해 유엔군의 북진이 저지되고 후퇴가 시작됨.
-        <span class="translation">The intervention of the Chinese People's Volunteer Army and the Battle of the Ch'ongch'on River halts the UN forces' northward advance, necessitating a general retreat.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1951년 1월</td>
-      <td>
-        1·4 후퇴 당시 박봉덕과 자녀들이 피난길에 오름. 이동 중 공습으로 인해 장녀가 사망하는 인명 피해가 발생함.
-        <span class="translation">During the January 4th Retreat, Park Bong-deok and her children join the mass evacuation southward; an air raid during their journey results in the death of her eldest daughter.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1950년 ~ 1953년경</td>
-      <td>
-        장교단의 막대한 인명 손실로 인해, 박원호는 대위 계급이었음에도 불구하고 통상 대령급 보직인 연대장 직책을 수행함.
-        <span class="translation">Due to heavy casualties among the officer corps, Park Won-ho serves as a regimental commander—a position typically held by a colonel—despite holding the rank of captain.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1953년 7월 27일</td>
-      <td>
-        정전협정 체결로 교전이 중지되고 비무장지대(DMZ)가 설정됨.
-        <span class="translation">The signing of the Armistice Agreement ends major hostilities and leads to the establishment of the Demilitarized Zone (DMZ).</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1953년 ~ 1956년</td>
-      <td>
-        박원호 육군대령이 제3군단 연대장 및 제30보병사단 부사단장을 역임함. 특히 제주도 모슬포 소재 육군 제1훈련소(강병대)에서 교육연대장으로서 신병 교육 및 부대 운영을 총괄함.
-        <span class="translation">Colonel Park Won-ho serves as a regimental commander in the 3rd Corps and as the vice division commander of the 30th Infantry Division. During this period, he oversees recruit training and unit operations as a regimental commander at the 1st Army Training Center (Gangbyeong-dae) located in Moseulpo, Jeju Island.</span>
-      </td>
-    </tr>
-  </table>
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1924</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">박원호와 박봉덕, 한반도 북부 지역에서 출생.</div>
+        <span class="translation">Park Won-ho and Park Bong-deok are born in the northern part of the Korean
+          Peninsula.</span>
+      </div>
+    </div>
 
-  <div class="image-box"><img src="photo5.jpg" alt="Park Won-ho at Training Center"></div>
-  <div class="image-box"><img src="photo6.jpg" alt="Group of Soldiers"></div>
+    <div class="image-grid">
+      <div class="image-card"><img src="photo1.jpg" alt="Park Won-ho Portrait 1"></div>
+      <div class="image-card"><img src="photo2.jpg" alt="Park Won-ho Portrait 2"></div>
+    </div>
+    <div class="image-grid">
+      <div class="image-card"><img src="photo3.jpg" alt="Park Bong-deok"></div>
+      <div class="image-card"><img src="photo4.jpg" alt="Traditional Scene"></div>
+    </div>
 
-  <h2>군 복무기와 정치적 격변</h2>
-  <table>
-    <tr>
-      <td class="date">1961년 봄</td>
-      <td>
-        김종필 소령으로부터 군사 쿠데타 참여 제안을 받았으나 이를 거절함.
-        <span class="translation">Park Won-ho receives a proposal from Major Kim Jong-pil to participate in a military coup but declines the offer.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1961년 5월 16일</td>
-      <td>
-        5·16 군사정변 발생. 박원호는 쿠데타 불참을 이유로 가택 연금 조치를 받음.
-        <span class="translation">Following the May 16 military coup, Park Won-ho is placed under house arrest due to his refusal to participate in the coup.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1963년</td>
-      <td>
-        박정희 제5대 대통령 취임.
-        <span class="translation">Park Chung-hee is inaugurated as the 5th President of the Republic of Korea.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1960년대 중반</td>
-      <td>
-        베트남전 파병(맹호부대 지휘관)을 통한 진급을 모색했으나, 군 내부의 인사 변수로 인해 파병이 무산됨.
-        <span class="translation">Park Won-ho seeks deployment to the Vietnam War as a commander of the Capital Mechanized Infantry (Tiger) Division; however, the assignment does not materialize due to internal military personnel variables.</span>
-      </td>
-    </tr>
-  </table>
+    <div class="timeline">
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1945</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">박원호가 일본 해군 장병으로 징집되어 남태평양 전선에 배치됨.</div>
+        <span class="translation">Park Won-ho is conscripted as a Japanese naval serviceman and deployed to the South
+          Pacific theater.</span>
+      </div>
 
-  <div class="image-box"><img src="photo7.jpg" alt="Military meeting"></div>
-  <div class="image-box"><img src="photo8.jpg" alt="Park Won-ho and Park Bong-deok outdoors"></div>
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1945. 08. 08</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko">소련의 대일 선전포고 및 한반도 북부 진주.</div>
+        <span class="translation">The Soviet Union declares war on Japan and advances into the northern part of the
+          Korean Peninsula.</span>
+      </div>
 
-  <h2>이민 및 명예 회복</h2>
-  <table>
-    <tr>
-      <td class="date">1968년</td>
-      <td>
-        박원호 전역 후 가족과 함께 미국 캘리포니아주 산호세로 이민.
-        <span class="translation">Following his retirement from military service, Park Won-ho immigrates to San Jose, California, with his family.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1979년 10월 26일</td>
-      <td>
-        박정희 대통령 피격 사건 발생.
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1945. 08. 15</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko">일본의 무조건 항복으로 제2차 세계대전 종결 및 한반도 광복.</div>
+        <span class="translation">World War II concludes with Japan's unconditional surrender, leading to the liberation
+          of the Korean Peninsula.</span>
+      </div>
+
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1945년 말</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko">포츠담 회담 결과에 따라 미·소 양군이 38선을 경계로 분할 점령함. 북한 지역에서 김일성 중심의 공산 정권 기반이 강화되었으며, 조만식 등 민족주의 진영과의
+          정치적 갈등이 심화됨.</div>
+        <span class="translation">In accordance with the Potsdam Conference, U.S. and Soviet forces partition and occupy
+          the Korean Peninsula along the 38th parallel. The foundations of a communist regime centered on Kim Il-sung
+          are solidified in the north, as political tensions with nationalist factions, including those led by <a
+            href="https://en.wikipedia.org/wiki/Cho_Man-sik" target="_blank">Cho
+            Man-sik</a>, intensify.</span>
+      </div>
+
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1946년 ~ 1947년경</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">박원호가 공산 정권에 대한 항의 활동으로 체포되었다가 이후 석방됨.</div>
+        <span class="translation">Park Won-ho is arrested for participating in protests against the communist regime and
+          subsequently released.</span>
+      </div>
+
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1948</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">박원호가 대한민국 육군사관학교 제7기로 임관함.</div>
+        <span class="translation">Park Won-ho is commissioned as an officer in the 7th graduating class of the Korea
+          History Academy.</span>
+      </div>
+    </div>
+
+    <h2>한국전쟁</h2>
+    <div class="timeline">
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1950. 6. 25</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko">북한군의 남침으로 <a href="https://ko.wikipedia.org/wiki/6.25_%EC%A0%84%EC%9F%81"
+            target="_blank">한국전쟁</a> 발발.</div>
+        <span class="translation">The <a href="https://en.wikipedia.org/wiki/Korean_War" target="_blank">Korean War</a>
+          breaks out following the North Korean military's invasion of the
+          South.</span>
+      </div>
+
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1950. 09. 15 ~ 1950. 09. 19</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko">유엔군의 <a
+            href="https://ko.wikipedia.org/wiki/%EC%9D%B8%EC%B2%9C_%EC%83%81%EB%A5%99_%EC%9E%91%EC%A0%84"
+            target="_blank">인천상륙작전</a> 성공으로 북한군의 보급로가 차단되고 서울 수복의 기틀이 마련됨.</div>
+        <span class="translation">The success of the UN forces' <a href="https://en.wikipedia.org/wiki/Battle_of_Inchon"
+            target="_blank">Incheon Landing Operation</a> severs North Korean supply
+          lines and establishes the groundwork for the recapture of Seoul.</span>
+      </div>
+
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1950. 11. 25 ~ 1950. 12. 2</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko">중공군의 개입과 <a
+            href="https://ko.wikipedia.org/wiki/%EC%B2%AD%EC%B2%9C%EA%B0%95_%EC%A0%84%ED%88%AC" target="_blank">청천강
+            전투</a>로 인해 유엔군의 북진이 저지되고 후퇴가 시작됨.</div>
+        <span class="translation">The intervention of the Chinese People's Volunteer Army and the <a
+            href="https://en.wikipedia.org/wiki/Battle_of_the_Ch%27ongch%27on_River" target="_blank">Battle of the
+            Ch'ongch'on River</a> halts the UN forces' northward advance, necessitating a general retreat.</span>
+      </div>
+
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1951. 01</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko"><a href="https://ko.wikipedia.org/wiki/1%C2%B74_%ED%9B%84%ED%87%B4" target="_blank">1·4
+            후퇴</a> 당시 박봉덕과 자녀들이 피난길에 오름. 이동 중 공습으로 인해 장녀가 사망하는 인명 피해가 발생함.</div>
+        <span class="translation">During the <a href="https://en.wikipedia.org/wiki/Third_Battle_of_Seoul"
+            target="_blank">January 4th Retreat</a>, Park Bong-deok and her children join the mass
+          evacuation southward; an air raid during their journey results in the death of her eldest daughter.</span>
+      </div>
+
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1950 ~ 1953</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">장교단의 막대한 인명 손실로 인해, 박원호는 대위 계급이었음에도 불구하고 통상 대령급 보직인 연대장 직책을 수행함.</div>
+        <span class="translation">Due to heavy casualties among the officer corps, Park Won-ho serves as a regimental
+          commander—a position typically held by a colonel—despite holding the rank of captain.</span>
+      </div>
+
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1953. 07. 27</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko"><a
+            href="https://ko.wikipedia.org/wiki/%ED%95%9C%EA%B5%AD_%EA%B5%B0%EC%82%AC_%EC%A0%95%EC%A0%84%EC%97%90_%EA%B4%80%ED%95%9C_%ED%98%91%EC%A0%95">정전협정</a>
+          체결로 교전이 중지되고 비무장지대(DMZ)가 설정됨.</div>
+        <span class="translation">The signing of the <a href="https://en.wikipedia.org/wiki/Korean_Armistice_Agreement"
+            target="_blank">Korean Armistice Agreement</a> ends major hostilities and leads to the
+          establishment of the Demilitarized Zone (DMZ).</span>
+      </div>
+    </div>
+
+    <h2>군 복무기와 정치적 격변</h2>
+    <div class="timeline">
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1953 ~ 1956</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko">박원호 육군대령이 제3군단 연대장 및 제30보병사단 부사단장을 역임함. 특히 제주도 모슬포 소재 육군 제1훈련소(강병대)에서 교육연대장으로서 신병 교육 및
+          부대 운영을 총괄함.</div>
+        <span class="translation">Colonel Park Won-ho serves as a regimental commander in the 3rd Corps and as the vice
+          division commander of the 30th Infantry Division. During this period, he oversees recruit training and unit
+          operations as a regimental commander at the 1st Army Training Center (Gangbyeong-dae) located in Moseulpo,
+          Jeju Island.</span>
+      </div>
+    </div>
+
+    <div class="image-grid">
+      <div class="image-card"><img src="photo5.jpg" alt="At Training Center"></div>
+    </div>
+    <div class="image-grid">
+      <div class="image-card"><img src="photo6.jpg" alt="History Group"></div>
+    </div>
+
+    <div class="timeline">
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1961년 봄</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">김종필 소령으로부터 군사 쿠데타 참여 제안을 받았으나 이를 거절함.</div>
+        <span class="translation">Park Won-ho receives a proposal from Major Kim Jong-pil to participate in a military
+          coup but declines the offer.</span>
+      </div>
+
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1961. 05. 16</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko"><a href="https://ko.wikipedia.org/wiki/5%C2%B716_%EA%B5%B0%EC%82%AC%EC%A0%95%EB%B3%80"
+            target="_blank">5·16 군사정변</a> 발생. 박원호는 쿠데타 불참을 이유로 가택 연금 조치를 받음.</div>
+        <span class="translation">Following the <a href="https://en.wikipedia.org/wiki/May_16_coup" target="_blank">May
+            16 military coup</a>, Park Won-ho is placed under house arrest due to
+          his refusal to participate in the coup.</span>
+      </div>
+
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1960년대 중반</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">베트남전 파병(<a
+            href="https://ko.wikipedia.org/wiki/%EC%88%98%EB%8F%84%EA%B8%B0%EA%B3%84%ED%99%94%EB%B3%B4%EB%B3%91%EC%82%AC%EB%8B%A8"
+            target="_blank">맹호부대</a>)을 통한 진급을 모색했으나, 군 내부의 인사 변수로 인해 파병이 무산됨.</div>
+        <span class="translation">Park Won-ho seeks deployment to the Vietnam War as a commander of the <a
+            href="https://en.wikipedia.org/wiki/Capital_Mechanized_Infantry_Division" target="_blank">Capital
+            Mechanized Infantry Division</a>; however, the assignment does not materialize due to internal
+          military
+          personnel variables.</span>
+      </div>
+    </div>
+
+    <div class="image-grid">
+      <div class="image-card"><img src="photo7.jpg" alt="Meeting"></div>
+    </div>
+    <div class="image-grid">
+      <div class="image-card"><img src="photo8.jpg" alt="Couple Outdoor"></div>
+    </div>
+
+    <h2>이민</h2>
+    <div class="timeline">
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1968</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">박원호 전역 후 가족과 함께 미국 캘리포니아주 산호세로 이민.</div>
+        <span class="translation">Following his retirement from military service, Park Won-ho immigrates to San Jose,
+          California, with his family.</span>
+      </div>
+
+      <div class="event">
+        <div class="date-wrapper">
+          <span class="date">1979. 10. 26</span>
+          <span class="badge badge-history">History</span>
+        </div>
+        <div class="content-ko">박정희 대통령 시해 사건 발생.</div>
         <span class="translation">President Park Chung-hee is assassinated.</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date">1993년</td>
-      <td>
-        문민정부 출범 이후 과거 군 내 불이익에 대한 재평가가 이루어졌으며, 박원호의 군사적 공로를 인정하여 준장 진급이 공식 승인됨.
-        <span class="translation">Following the inauguration of the civilian government, a reassessment of past administrative disadvantages within the military is conducted. Park Won-ho’s military service is subsequently recognized, and his promotion to Brigadier (1-star) General is officially approved.</span>
-      </td>
-    </tr>
-  </table>
-</div>
+      </div>
+
+
+      <div class="event family-event">
+        <div class="date-wrapper">
+          <span class="date">1993</span>
+          <span class="badge badge-family">Family</span>
+        </div>
+        <div class="content-ko">문민정부 출범 이후 과거 군 내 불이익에 대한 재평가가 이루어졌으며, 박원호의 군사적 공로를 인정하여 준장 진급이 공식 승인됨.</div>
+        <span class="translation">Following the inauguration of the civilian government, a reassessment of past
+          administrative disadvantages within the military is conducted. Park Won-ho’s military service is subsequently
+          recognized, and his promotion to Brigadier (1-star) General is officially approved.</span>
+      </div>
+    </div>
+  </div>
 
 </body>
+
 </html>
